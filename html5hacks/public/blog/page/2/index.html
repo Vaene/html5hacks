@@ -1,0 +1,1739 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>HTML5 Hacks</title>
+  <meta name="author" content="Jesse Cravens and Jeff Burtoft">
+
+  
+  <meta name="description" content="Your native apps are smart enough to know how you’re holding your device. Now your web apps can be, too. Use orientation-based media queries to make &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://html5hacks.com/blog/page/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="HTML5 Hacks" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic
+" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Paytone+One' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-28132474-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">HTML5 Hacks</a></h1>
+  
+    <h2>Hacking Next Generation Web Technologies</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:html5hacks.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About the Hackers</a></li>
+  <li><a href="/training">Training</a></li>
+  <li><a href="/join">Join Us</a></li>  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/04/make-your-web-app-respond-to-device-orientation-changes/">Make Your Web App Respond to Device Orientation Changes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-04T00:31:00-05:00" pubdate data-updated="true">Jan 4<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/01/04/make-your-web-app-respond-to-device-orientation-changes/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>Your native apps are smart enough to know how you’re holding your device. Now your web apps can be, too. Use orientation-based media queries to make your site responsive.</h4>
+
+<p>Mobile devices have brought a new paradigm to web development. Unlike desktops and laptops that have a fixed orientation (I rarely see people flip their PowerBook on its side), mobile devices can be viewed in either landscape or portrait mode. Most mobile phones and tablets have an accelerometer inside that recognizes the change in orientation and adjusts the screen accordingly. This allows you to view content on these devices in either aspect ratio. For example, the iPad has a screen aspect ratio of 3:4 where the device is taller than it is wide. When you turn it on its side, it has an aspect ratio of 4:3 (wider than it is tall). That’s an orientation change.</p>
+
+<p>Using media queries, you can natively identify which orientation the device is being held in, and utilize different CSS for each orientation. Let’s go back to our example page and see what it would look like in landscape mode (see Figure 2-16) and portrait mode (see Figure 2-17).</p>
+
+<p><img class="figure" alt="Figure 2-16" src="/images/chapter2-images/2-15.png"></p>
+
+<p>Figure 2-16:Our sample page in landscape mode on an iPad, with three columns of content</p>
+
+<p>Here is the markup that makes each view work:</p>
+
+<figure class='code'><figcaption><span>orientation.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span4&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span4&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span4&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here is the CSS for the three-column view:</p>
+
+<figure class='code'><figcaption><span>orientation.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.row</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">width</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="figure" alt="Figure 2-17" src="/images/chapter2-images/2-15b.png"></p>
+
+<p>Figure 2-17: Our sample page in portrait mode on an iPad, with one column of linear content:</p>
+
+<figure class='code'><figcaption><span>orientation.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.span4</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">width</span><span class="o">:</span> <span class="m">300px</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">margin-left</span><span class="o">:</span> <span class="m">30px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and the CSS for the single-column view:</p>
+
+<figure class='code'><figcaption><span>orientation.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.row</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">width</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nc">.span4</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">width</span><span class="o">:</span> <span class="k">auto</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">float</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we’ll wrap each CSS option in media queries so that they only apply in their proper orientation. Remember, the media queries wrap the CSS in conditions that only apply the declarations when the media query resolves to true. Using inline media queries, our CSS will now look something like this:</p>
+
+<figure class='code'><figcaption><span>orientation.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">orientation</span><span class="nd">:landscape</span><span class="o">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nc">.row</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">width</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nc">.span4</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">width</span><span class="o">:</span> <span class="m">300px</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">margin-left</span><span class="o">:</span> <span class="m">30px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">orientation</span><span class="nd">:portrait</span><span class="o">)</span> <span class="p">{</span>
+</span><span class='line'><span class="nc">.row</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">width</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nc">.span4</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">width</span><span class="o">:</span> <span class="k">auto</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">float</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With the CSS and media queries in place, our page will have three columns of content in landscape mode, and only one in portrait mode.</p>
+
+<h2>Why Not Width?</h2>
+
+<p>If you compare device orientation to max-width pixel media queries, you may realize you can accomplish this hack with max- and min-width queries, since the width will change when the device changes orientation. However, there are pros and cons to doing this.</p>
+
+<p>Media queries based on orientation can often be simpler. You don’t need to know what screen size to expect for landscape versus portrait view. You simply rely on the orientation published by the device. You also gain consistency between devices in terms of how the pages appear in each orientation.</p>
+
+<p>The argument against orientation media queries is pretty much the same. You really shouldn’t care if your orientation is portrait or landscape. If your screen width is 700px, it shouldn’t matter which way the device is being held: the layout should cater to a 700px screen. When you design for the available space the actual orientation becomes inconsequential.</p>
+
+<p>Want to try it out?  View this code sample in our <a href="https://github.com/html5hacks/chapter2">GitHub Repo</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/28/elegantly-resize-your-page-with-the-at-viewport-css-declaration/">Elegantly Resize Your Page With the @-viewport CSS Declaration</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-28T18:37:00-05:00" pubdate data-updated="true">Nov 28<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/28/elegantly-resize-your-page-with-the-at-viewport-css-declaration/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>Gone are the days of viewport meta tags that with implementations different across browsers.  The new @-viewport is easy to use and puts the control in the right place.</h4>
+
+<p>There is a minsconception that the meta “viewport” tag is a standard.  We have seen it implemeted in quite a few browsers, mostly mobile, and looks something like this:</p>
+
+<figure class='code'><figcaption><span>meta.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=320&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Developers use this meta tag to control the zoom factor of the browser when loading the page.  If the above example, the page will assume that the viewport is 320px, no matter how many pixels are really available for rendering.  Usually, it was used to squeeze a 900-1200px screen, into a 320px screen.</p>
+
+<p>The meta tag worked okay but it has limitations, and since it’s non-standard, it’s been implemented different ways across browsers.</p>
+
+<h2>CSS Pixels</h2>
+
+<p>To follow what&rsquo;s happening to your page with the viewport values, it’s important to understand the basic concept of viewport zooming.  I don’t think the explanation can be done any better than it was by PPK in <a href="http://www.quirksmode.org/mobile/viewports2.html">this post about viewports</a>.  Here’s the summary:</p>
+
+<blockquote><p>Both viewports are measured in CSS pixels, obviously. But while the visual viewport dimensions change with zooming (if you zoom in, less CSS pixels fit on the screen), the layout viewport dimensions remain the same. (If they didn’t your page would constantly reflow as percentual widths are recalculated.)</p></blockquote>
+
+<p>Let’s look at an example:</p>
+
+<p><img class="figure" alt="Figure 7-1" src="/images/news-images/viewport.png"></p>
+
+<p>Two screenshots, the left used rendered in ie10 on windows phone 8 with no view port setting.  The screenshot on the right has a viewport declaration set to  set the viewport width to 320px</p>
+
+<p>In the above figure, we see a smiley face on a page.   Both pages have a smiley face that has a width set to 300 pixels.  The difference is in css pixels.  Mobile browsers zoom out to see more content on a page by default.  In this case the page on the left is zoomed out so that the whole page can be seen.  This makes our smiley face much smaller that it actually is.  Although it may only take up 70 pixels of actual screen pixels, it’s  css pixel width will always be 300.</p>
+
+<p>The figure on the right also is 300 css pixels, but since the viewport is set to 320px, the device pixels of the smiley face is actually 450 or so pixels.</p>
+
+<h2>@-viewport CSS</h2>
+
+<p>Sound difficult?  It’s going to get a lot simpler with a new specification.  The W3C has a specification to address the non-standard viewport meta tag and more, and the control has now rightfully been moved to CSS.</p>
+
+<p>The specification can be found here:
+  <a href="http://dev.w3.org/csswg/css-device-adapt/">http://dev.w3.org/csswg/css-device-adapt/</a></p>
+
+<p>Although still in draft form, the specification has been implemented in Internet Explorer 10, and has developers quite excited about it.  Lets look at an example.  To set the screen to a CSS pixel width of 640 pixels, we would use the following css:</p>
+
+<figure class='code'><figcaption><span>viewport.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@-viewport</span> <span class="p">{</span>
+</span><span class='line'><span class="nt">width</span><span class="o">:</span> <span class="nt">640px</span><span class="o">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Doesn’t that make sense?  The great thing is that this property works both ways (scaling up and down).  If you screen width is smaller than 640px, your screen will be zoomed out to fix the entire 640px viewport on the screen.  If you screen is larger than 640px, you screen will be zoomed in to only show 640px viewport.  In either case the css width of the screen is 640px.</p>
+
+<p>Inside the viewport tag, you can set any value that is related to the viewport, specifically that means width, height, max-width, max-height, min-width, and min-height.  Widths and heights can be set to any of the these values:</p>
+
+<ul>
+<li>auto:  let the user agent determine the best</li>
+<li>device width/height: scales to the actual width or height of the device.</li>
+<li>percent/pixel value: specific settings to assume as the screen width or height.</li>
+</ul>
+
+
+<p>To maximize responsive design, you can use this @-viewport tag along with media queries, and may appear as something like the following:</p>
+
+<figure class='code'><figcaption><span>viewport.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="o">:</span> <span class="nt">699px</span><span class="o">)</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="o">:</span> <span class="nt">520px</span><span class="o">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">@-viewport</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">width</span><span class="o">:</span> <span class="nt">640px</span><span class="o">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above css will normalize any screen smaller than 699px and larger than 520px to be rendered at a viewport of 640px.  This will save a boatload of other css properties to do this same feature.</p>
+
+<p>In addition to the existing values, we have a few new values added as well, specifically the zoom value. Zoom allows us to set an initial zoom factor for the window or viewing area.  Zoom, along with min-zoom and max-zoom, can be set using any of the following values:</p>
+
+<ul>
+<li>auto: let the user agent determine the zoom factor</li>
+<li>numeric: a positive integer that is used to determine the zoom value  A value of 1.0 has no zoom.</li>
+<li>percentage: a positive percentage.  In the case of 100% there is no zoom.</li>
+</ul>
+
+
+<p>Zoom can be used by itself or in conjunction with a width or height value:</p>
+
+<figure class='code'><figcaption><span>viewport.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@-viewport</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">width</span><span class="o">:</span> <span class="nt">device-width</span><span class="o">;</span>
+</span><span class='line'>    <span class="nt">zoom</span><span class="o">:</span> <span class="nc">.5</span><span class="o">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The second new descriptor is that of “orientation”.  Any keen developer can tell that this is used to request that your device lock in a specific orientation.  Any of the following keywords can be used:</p>
+
+<ul>
+<li>auto: let the user agent determin</li>
+<li>landscape: lock the device in landscape orientation</li>
+<li>portrait: lock the device in portrait mode</li>
+</ul>
+
+
+<p>The implementation can be used along with width and zoom as in the following example:</p>
+
+<figure class='code'><figcaption><span>viewport.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@viewport</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">width</span><span class="o">:</span> <span class="nt">980px</span><span class="o">;</span>
+</span><span class='line'>    <span class="nt">min-zoom</span><span class="o">:</span> <span class="nt">0</span><span class="nc">.25</span><span class="o">;</span>
+</span><span class='line'>    <span class="nt">max-zoom</span><span class="o">:</span> <span class="nt">5</span><span class="o">;</span>
+</span><span class='line'>    <span class="nt">orientation</span><span class="o">:</span> <span class="nt">landscape</span><span class="o">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Internet Explorer Implementation</h2>
+
+<p>The implementation in Internet Explorer 10 is practically identical to the W3C standard (great job IE team), with the addition of a prefix to signify that it’s an experimental implementation (as all prefixed implementations are).  The ie viewport value appears as follows:</p>
+
+<figure class='code'><figcaption><span>viewport.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@-ms-viewport</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">width</span><span class="o">:</span> <span class="nt">device-width</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>IEs implementation currently only supports the width and height properties. Min and max height/width are not implemented and neither are zoom or orientation.  As with all early implementation of standards, if the specification changes, I have no doubt that the internet explorer team with update the implementation to match the standard.</p>
+
+<h2>Legacy Implementations</h2>
+
+<p>When most developers think about viewport, this is what they think of:</p>
+
+<figure class='code'><figcaption><span>meta.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=320&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This tag zooms in the page to a viewport of 320 pixels.  Although originally introduced by apple most mobile browsers went on to support this tag in one form or another.  The tag was often supported differently from browser to browser, and the syntax was never really clear in its documentation.  hence, the need for a standard.</p>
+
+<p>Different browses implemented the meta tag differently when using the meta tag to determine the width of the page (specifically by setting width to device-width)  Let’s look at the Windows Phone 7 Internet Explorer and iOS safari implementations.</p>
+
+<h3>Internet explorer</h3>
+
+<p>If you set the width in the meta tag to a specific size in internet explorer for windows phone 7, you get exactly what you ask for.  A meta tag like this:</p>
+
+<figure class='code'><figcaption><span>meta.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=480&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above code will get you exactly what you ask for, which is a viewport zoomed to 480 pixels.  Now, when you set the width to be “device-width” such as the following:</p>
+
+<figure class='code'><figcaption><span>meta.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this case, you get a page with a width of 320px in portrait mode, and 480px in landscape.  This is independent of how many pixels are actually available on the screen.</p>
+
+<h3>Safari</h3>
+
+<p>Safari on iOS works just like ie does for specific pixel settings, but differs when you set width to “device width”.  Let’s again look at our meta tag:</p>
+
+<figure class='code'><figcaption><span>meta.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the case of iOS, the width of the screen will be set to the actual width of the screen.  If the screen has 640 pixels, than the viewport will be resized to 640 pixels.</p>
+
+<p>One of the worst parts about this meta tag is it really only helps on smaller screen, where content needs to scale down in size.  it’s outdated and was due to be replace with something better.</p>
+
+<p>The viewport standard is supported in ie10 on windows phone 8, but has legacy support for this meta tag as well.  Implementation of this meta tag in ie10 will give you the normalized values for page width (320px) when asking for screen size.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/21/make-your-page-consumable-by-robots-and-humans-alike-with-microdata/">Make Your Page Consumable by Robots and Humans Alike With Microdata</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-21T22:34:00-05:00" pubdate data-updated="true">Nov 21<span>st</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/21/make-your-page-consumable-by-robots-and-humans-alike-with-microdata/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>HTML5 microdata provides the mechanism for easily allowing machines to consume the data on your pages, while not affecting the experience for the user.</p>
+
+<p>If you’re like me, you believe that in the future, machines will rule over us humans with an iron fist (provided, of course, that the Zombie Apocalypse doesn’t get us first). While there isn’t anything we can do to help the zombie masses understand the Internet, HTML5 does offer a feature that prepares us for that machine dictatorship. It’s called microdata, and it’s supposed to be for machines only—no humans allowed.</p>
+
+<p>You can tell by now that HTML5 adds a lot of depth to your data, but up to this point the focus has been on your users. Microdata takes you down a slightly different path when you think about consumers who aren’t your users. Microdata is additional context you add to your markup to make it more consumable. When you build your page, you can add these additional attributes to give further context to your markup.</p>
+
+<p>Microdata can be added to any page element to identify that element as an “item” or a high-level chunk of data. The content nested inside that item can then be labeled as properties. These properties essentially become name–value pairs when the itemprop becomes the value name and the human-readable content becomes the value. The relevant code would look something like this:</p>
+
+<figure class='code'><figcaption><span>scope.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">itemscope</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>Fred<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>Sometimes item property data isn’t in the format that a “machine” would like, and additional attributes need to be added to clarify what the human-readable data is saying. In that scenario your data would look like this:
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">itemscope</span><span class="nt">&gt;</span>
+</span><span class='line'>    Hello, my name is <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>Fred<span class="nt">&lt;/span&gt;</span>.
+</span><span class='line'>    I was born on
+</span><span class='line'>   <span class="nt">&lt;time</span> <span class="na">itemprop=</span><span class="s">&quot;birthday&quot;</span> <span class="na">datetime=</span><span class="s">&quot;1975-09-29&quot;</span><span class="nt">&gt;</span>Sept. 29, 1975<span class="nt">&lt;/time&gt;</span>.
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now imagine how consumable the Web would be for those machines of the future once microdata is utilized on every page!</p>
+
+<p>In this hack we’ll use microdata to make sure our contact list is machine-readable. Each contact entry will be identified as an item, and its contents will be labeled as a property. Our first contact will look like this:</p>
+
+<figure class='code'><figcaption><span>scopeitem.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;li</span> <span class="na">itemscope</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Name: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>Fred<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Phone: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;telephone&quot;</span><span class="nt">&gt;</span>210-555-5555<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Email: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;email&quot;</span><span class="nt">&gt;</span>thebuffalo@rockandstone.com<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/li&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, we have constructed one data item on our page, and when the markup is machine-read it will see the item as something like this:</p>
+
+<figure class='code'><figcaption><span>json.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>    <span class="nx">Item</span><span class="o">:</span> <span class="p">{</span>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Fred&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">telephone</span><span class="o">:</span> <span class="s1">&#39;210-555-5555&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;thebuffalo@rockandstone.com&#39;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let’s build ourselves a whole list:</p>
+
+<figure class='code'><figcaption><span>wholelist.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;li</span> <span class="na">itemscope</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Name: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>Fred<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Phone: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;telephone&quot;</span><span class="nt">&gt;</span>210-555-5555<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Email: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;email&quot;</span><span class="nt">&gt;</span>thebuffalo@rockandstone.com<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;li</span> <span class="na">itemscope</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Name: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>Wilma<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Phone: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;telephone&quot;</span><span class="nt">&gt;</span>210-555-7777<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Email: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;email&quot;</span><span class="nt">&gt;</span>thewife@rockandstone.com<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;li</span> <span class="na">itemscope</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Name: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>Betty<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Phone: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;telephone&quot;</span><span class="nt">&gt;</span>210-555-8888<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Email: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;email&quot;</span><span class="nt">&gt;</span>theneighbour@rockandstone.com<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;li</span> <span class="na">itemscope</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Name: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>Barny<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Phone: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;telephone&quot;</span><span class="nt">&gt;</span>210-555-0000<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Email: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;email&quot;</span><span class="nt">&gt;</span>thebestfriend@rockandstone.com<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/li&gt;</span>
+</span><span class='line'><span class="nt">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To our human friends the page looks something like Figure 1-14.</p>
+
+<p><img class="figure" alt="Figure 1-14" src="/images/chapter1-images/microdata1.jpg"></p>
+
+<p>Figure 1-14. Adding microdata to the page, which does not change the view for users</p>
+
+<p>To our machine friends, the code looks something like this:</p>
+
+<figure class='code'><figcaption><span>itemjson.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>    <span class="nx">Item</span><span class="o">:</span> <span class="p">{</span>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Fred&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">telephone</span><span class="o">:</span> <span class="s1">&#39;210-555-5555&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;thebuffalo@rockandstone.com&#39;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>    <span class="nx">Item</span><span class="o">:</span> <span class="p">{</span>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Wilma&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">telephone</span><span class="o">:</span> <span class="s1">&#39;210-555-7777&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;thewife@rockandstone.com&#39;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>    <span class="nx">Item</span><span class="o">:</span> <span class="p">{</span>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Betty&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">telephone</span><span class="o">:</span> <span class="s1">&#39;210-555-8888&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;theneighbor@rockandstone.com&#39;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>    <span class="nx">Item</span><span class="o">:</span> <span class="p">{</span>    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Barny,</span>
+</span><span class='line'><span class="s1">        telephone: &#39;</span><span class="mi">210</span><span class="o">-</span><span class="mi">555</span><span class="o">-</span><span class="mi">0000</span><span class="s1">&#39;,</span>
+</span><span class='line'><span class="s1">        email: &#39;</span><span class="nx">thebestfriend</span><span class="err">@</span><span class="nx">rockandstone</span><span class="p">.</span><span class="nx">com</span><span class="err">&#39;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It’s that easy to add microdata to your page without sacrificing the interface for your human friends.</p>
+
+<h2>Details, Details!</h2>
+
+<p>Microdata is pretty darn easy to implement, and the W3C spec thinks it should be just as easy to read, which is why the W3C added a JavaScript API to be able to access the data. Remember each of your identified elements was marked with an attribute called itemscope, which means the API considers them items. To get all these items, you simply call the following:</p>
+
+<figure class='code'><figcaption><span>getitem.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">getItems</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now your items can also be segmented by type, so you can identify some of your items as people, and others as cats. Microdata allows you to define your items by adding the itemtype attribute, which will point to a URL, or have an inline definition. In this case, if we defined our cat type by referring to the URL <a href="http://example.com/feline,">http://example.com/feline,</a> our cat markup would look something like this:</p>
+
+<figure class='code'><figcaption><span>More lastscope.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;li</span> <span class="na">itemscope</span> <span class="na">itemtype=</span><span class="s">&quot;http://example.com/feline&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Name: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>Dino<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Phone: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;telephone&quot;</span><span class="nt">&gt;</span>210-555-4444<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;</span>Email: <span class="nt">&lt;span</span> <span class="na">itemprop=</span><span class="s">&quot;email&quot;</span><span class="nt">&gt;</span>thecat@rockandstone.com<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/li&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And if we wanted to get items with only a specific type of cat, we would call:</p>
+
+<figure class='code'><figcaption><span>getsample.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">getItems</span><span class="p">(</span><span class="s2">&quot;http://example.com/feline&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Thanks to this simple API, your microdata-enriched markup is both easy to produce and easy to consume.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/18/configure-amazon-s3-for-cross-origin-resourse-sharing-to-host-a-web-font/">Configure Amazon S3 for Cross Origin Resourse Sharing to Host a Web Font</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-18T19:42:00-05:00" pubdate data-updated="true">Nov 18<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/18/configure-amazon-s3-for-cross-origin-resourse-sharing-to-host-a-web-font/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Cross-Origin Resource Sharing (CORS) is a specification that allows applications to
+make requests to other domains from within the browser. With CORS you have a secure
+and easy-to-implement approach for circumventing the browser’s same origin
+policy.</p>
+
+<p>In this hack we will explore hosting a web font on a cloud drive. In order to do so, we
+will learn how to configure an Amazon S3 bucket to accept requests from other domains.</p>
+
+<p>If you are not already familiar with web fonts and @font-face, refer to Hack #12.</p>
+
+<p>In the next section I provide a bit more background on Amazon S3 and the same origin
+policy, before we get into the details of CORS.</p>
+
+<h3>What Is an Amazon S3 Bucket?</h3>
+
+<p>Amazon S3 (Simple Storage Service) is simply a cloud drive. Files of all kinds can be
+stored using this service, but web application developers often use it to store static
+assets such as images, JavaScript files, and stylesheets.</p>
+
+<p>For performance improvements, web developers like to employ Content Delivery Networks
+(CDNs) to serve their static files. While Amazon S3 is not a CDN in and of itself,
+it’s easy to activate it as one by using CloudFront.</p>
+
+<p>A bucket refers to the directory name that you choose to store your static files.
+To get started let’s set up an account at Amazon and navigate to the Amazon Management
+Console; see Figure 9-21.</p>
+
+<p>Figure 9-21. S3 Management Console</p>
+
+<p><img class="figure" alt="Figure 9-21" src="/images/chapter9-images/9-21.png"></p>
+
+<p>If we click on Create a Bucket we should see the prompt shown in Figure 9-22.</p>
+
+<p>Figure 9-22. Creating an S3 bucket in the S3 Management Console</p>
+
+<p><img class="figure" alt="Figure 9-22" src="/images/chapter9-images/9-22.png"></p>
+
+<p>Let’s name the bucket and choose a region (see Figure 9-23). As I stated earlier, you
+can choose a region to optimize for latency, minimize costs, or address regulatory
+requirements.</p>
+
+<p>Figure 9-23. Naming an S3 bucket in the S3 Management Console</p>
+
+<p><img class="figure" alt="Figure 9-23" src="/images/chapter9-images/9-23.png"></p>
+
+<p>We will go ahead and name our bucket none other than “html5hacks.” You should now
+see an admin screen that shows an empty filesystem (see Figure 9-24).</p>
+
+<p>Figure 9-24. The html5hacks S3 bucket</p>
+
+<p><img class="figure" alt="Figure 9-24" src="/images/chapter9-images/9-24.png"></p>
+
+<p>Well, that was simple. So why are we doing this? Let’s start with some simple browser
+security—something called the same origin policy.</p>
+
+<h3>Same Origin Policy</h3>
+
+<p>As the browser becomes more and more of an application platform, application developers
+have compelling reasons to write code that makes requests to other domains
+in order to interact directly with the content. Wikipedia defines same origin policy as
+follows:</p>
+
+<p>In computing, the same origin policy is an important security concept for a
+number of browser-side programming languages, such as JavaScript. The
+policy permits scripts running on pages originating from the same site to
+access each other’s methods and properties with no specific restrictions,
+but prevents access to most methods and properties across pages on different
+sites.1</p>
+
+<p>1 <a href="http://en.wikipedia.org/wiki/Same_origin_policy">http://en.wikipedia.org/wiki/Same_origin_policy</a></p>
+
+<p>As stated in Wikipedia’s definition, the same origin policy is a good thing; it protects
+the end user from security attacks. But it does cause some challenges for web developers.</p>
+
+<p>This is where CORS comes into the picture. CORS allows developers of remote data
+and content to designate which domains (through a whitelist) can interact with their
+content.</p>
+
+<h3>Using Web Fonts in Your Application</h3>
+
+<p>There are a number of ways to use a web font within your web pages, such as calling
+the @font-face service, bundling the font within your application, hosting the web font
+in your own Amazon S3 bucket (more on this later), or converting the file to Base64
+and embedding the data inline in a data-uri. By the way, the last technique is similar
+to the one outlined in Hack #13.</p>
+
+<p>Each of these techniques has limitations.</p>
+
+<ul>
+<li>When calling the @font-face service you are limited to the fonts within the particular
+service’s database.</li>
+<li>Bundling the font within your application does not make use of HTTP caching, so
+your application will continue to download the font file on every page request.
+Furthermore, you cannot reuse the font within other applications.</li>
+<li>Hosting the font in an Amazon S3 bucket works great, except with Firefox, which
+enforces the same origin policy on all resources. So the response from the remote
+server will be denied.</li>
+<li>Converting the font to Base64 adds additional weight to the stylesheet, and does
+not take advantage of caching.</li>
+</ul>
+
+
+<p>An exploration into the different types of web fonts is beyond the scope of this hack,
+so I will assume that you have already selected the web font BebasNeue.otf.
+You can download free and open fonts from sites such as <a href="http://www.dafont.com.">http://www.dafont.com.</a></p>
+
+<h3>Uploading Your Font to Your Amazon S3 Bucket</h3>
+
+<p>Now, all we have to do is to upload the font onto our filesystem in the cloud (see
+Figure 9-25).</p>
+
+<p>Figure 9-25. An uploaded BebasNeue font</p>
+
+<p><img class="figure" alt="Figure 9-25" src="/images/chapter9-images/9-25.png"></p>
+
+<h3>Adding the Web Font to Your Web Page</h3>
+
+<p>In order to add a web font to our page, we need to add a single stylesheet to an HTML
+page.</p>
+
+<p>Here is our page. Let’s call it index.html, and add a <link> tag pointing to our base
+stylesheet, styles.css.</p>
+
+<figure class='code'><figcaption><span>geo.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;title&gt;</span>S3 - font<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;styles.css&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;h1</span> <span class="na">class=</span><span class="s">&quot;test&quot;</span><span class="nt">&gt;</span>HTML5 Hacks<span class="err">&lt;</span>/&gt;
+</span><span class='line'>  <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In our styles.css let’s add the following and point to our uploaded file. Also, let’s assign
+the font to our H1 header via the test class name.</p>
+
+<figure class='code'><figcaption><span>style.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="nt">BebasNeue</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">url</span><span class="o">(</span><span class="s1">&#39;https://s3.amazonaws.com/html5hacks/BebasNeue.otf&#39;</span><span class="o">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.test</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;BebasNeue&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we’ll open a browser and point to our newly created HTML page. In Opera (see
+Figure 9-26), Safari, and Chrome our header tag is being styled correctly.</p>
+
+<p>Figure 9-26. Opera browser showing the BebasNeue font</p>
+
+<p><img class="figure" alt="Figure 9-26" src="/images/chapter9-images/9-26.png"></p>
+
+<p>But if we view it in Firefox, we are having issues (see Figure 9-27).</p>
+
+<p>Figure 9-27. Firefox browser failing to show the BebasNeue font</p>
+
+<p><img class="figure" alt="Figure 9-27" src="/images/chapter9-images/9-27.png"></p>
+
+<p>If we examine the request for our font in the Chrome Dev Tools Network tab, we will
+see that the response from the server is empty (see Figure 9-28).</p>
+
+<p>Figure 9-28. Firefox browser showing an empty response</p>
+
+<p><img class="figure" alt="Figure 9-28" src="/images/chapter9-images/9-28.png"></p>
+
+<p>What gives? Well, by default, Firefox will only accept links from the same domain as
+the host page. If we want to include fonts from different domains, we need to add an
+Access-Control-Allow-Origin header to the font.</p>
+
+<p>So, if you try to serve fonts from any CDN, Firefox will not load them.</p>
+
+<h3>What Is CORS?</h3>
+
+<p>The CORS specification uses the XMLHttpRequest object to send and receive headers
+from the originating web page to a server that is properly configured in order to
+enable cross-site requests.</p>
+
+<p>The server accepting the request must respond with the
+Access-Control-Allow-Origin header with either a wildcard (*) or the correct
+origin domain sent by the originating web page as the value. If the value is not included,
+the request will fail.</p>
+
+<p>Furthermore, for HTTP methods other than GET or POST, such as PUT, a preflight request
+is necessary, in which the browser sends an HTTP OPTIONS request to establish
+a handshake with the server before accepting the PUT request.</p>
+
+<p>Fortunately, after enough backlash from the development community, Amazon made
+CORS configuration available on Amazon S3 via a very simple XML configuration.</p>
+
+<p>Let’s get started.</p>
+
+<h3>Configuring CORS at Amazon S3</h3>
+
+<p>You should already be at your Amazon Management Console at <a href="http://">http://</a>
+console.aws.amazon.com. Click on Properties→Permissions→Edit CORS configuration,
+and you should receive a modal prompt.</p>
+
+<p>The configuration can accept up to 100 rule definitions, but for our web font we will
+only need a few. For this example we will use the wildcard, but if you are doing this in
+production, you should whitelist the domains to prevent others from serving your font
+from your S3 account on their own web pages. It wouldn’t be the end of the world, but
+it might get costly.</p>
+
+<p>The first rule allows cross-origin GET requests from any origin. The rule also allows all
+headers in a preflight OPTIONS request through the
+Access-Control-Request-Headers header. In response to any preflight OPTIONS
+request, Amazon S3 will return any requested headers.</p>
+
+<p>The second rule allows cross-origin GET requests from all origins. The * wildcard
+character refers to all origins.</p>
+
+<figure class='code'><figcaption><span>config.xml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;CORSConfiguration&gt;</span>
+</span><span class='line'><span class="nt">&lt;CORSRule&gt;</span>
+</span><span class='line'><span class="nt">&lt;AllowedOrigin&gt;</span>*/AllowedOrigin&gt;
+</span><span class='line'><span class="nt">&lt;AllowedMethod&gt;</span>GET<span class="nt">&lt;/AllowedMethod&gt;</span>
+</span><span class='line'><span class="nt">&lt;/CORSRule&gt;</span>
+</span><span class='line'><span class="nt">&lt;/CORSConfiguration&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So, let’s add our new configuration to our Editor and save (see Figure 9-29).</p>
+
+<p>Figure 9-29. Configuring CORS in the S3 Management Console</p>
+
+<p><img class="figure" alt="Figure 9-29" src="/images/chapter9-images/9-29.png"></p>
+
+<p>Now, let’s return to Firefox and reload the page. We should now see the header font
+styled with our BebasNeue web font, as shown in Figure 9-30.</p>
+
+<p>Figure 9-30. Firefox browser successfully showing the BebasNeue font</p>
+
+<p><img class="figure" alt="Figure 9-30" src="/images/chapter9-images/9-30.png"></p>
+
+<p>There is much more to learn about CORS, most notably, HTTP POST usage with certain
+MIME types, and sending cookies and HTTP authentication data with requests if so
+requested by the CORS-enabled server. So get out there and starting creating your
+own CORS hacks.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/15/overview-of-the-geolocation-chapter-in-oreilly-html5-hacks/">Overview of the GeoLocation Chapter in O&#8217;Reilly HTML5 Hacks</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-15T23:19:00-04:00" pubdate data-updated="true">Oct 15<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/10/15/overview-of-the-geolocation-chapter-in-oreilly-html5-hacks/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>An exploration of the future of web technologies and browser capabilities would not be complete without covering the tools and techniques available to enable location awareness.</p>
+
+<p>Location-aware web applications provide content, functionality, and services based on the cooperative detection of the user’s physical location. These applications can then provide the user with real-time filtering of online information relevant to his current location, such as place markers indicating the user’s location within a map, local consumer reviews, local coupons and offers, and even relevant traffic and public transportation notices.</p>
+
+<p>These applications also enable users to provide their location to friends in a social network and vice versa, creating possibilities for meetups and blended online and physical interaction.</p>
+
+<p>As you might imagine, the opportunities are not just limited to enhancing the life of the consumer. Given real-time location data of potential consumers and their friends, retailers can also create highly targeted, location-specific marketing campaigns for both digital and physical products.</p>
+
+<h2>How Does It Work?</h2>
+
+<p>The web browser employs various technologies to pass parameters via a background HTTP request to a Location Information Server that returns a data set that includes an estimated longitude and latitude.</p>
+
+<p>The technologies used to gather location data depend on the device and on the operating system running on the device. The most common sources are:</p>
+
+<ul>
+<li>Public IP address</li>
+<li>WiFi access points</li>
+<li>Bluetooth MAC IDs</li>
+<li>GPS</li>
+<li>GSM/CDMA cell tower IDs</li>
+</ul>
+
+
+<p>Geolocation libraries for the Web are not new. In fact, today’s W3C Geolocation specification is largely reflective of the original Google Gears API introduced by Google in 2008. The API has been standardized and is one of the most widely adopted of the HTML5 specifications covered in this book (O&#8217;Reilly HTML5 Hacks).</p>
+
+<p>Fortunately, the API is also easy to use—a benefit we will explore in “Use the Geolocation APIs to Display Longitude and Latitude in a Mobile Web Application” and “Update a User’s Current Location in a Google Map”.</p>
+
+<p>In addition, a number of third-party services are available for creating really interesting hacks, and they explore concepts such as reverse geocoding and geofencing. In “Use Google’s Geocoding API to Reverse-Geocode a User’s Location” and “Use the Geoloqi Service to Build a Geofence” we will pass our location data to a service that will provide an enhanced API for working with location data.
+In “Use the Geoloqi Real-Time Streaming Service to Broadcast a Remote User’s Movement” we will blend the power of the WebSocket API with location awareness to make our application update in real time.</p>
+
+<p>For browsers that don’t provide this functionality natively, Google’s IP geocoding service can serve as a polyfill, as we will explore in “Polyfill Geolocation APIs with Webshims”.</p>
+
+<p>The main drawback to this functionality is related to privacy and security, and for good reason. After all, as responsible application developers we should be doing what we can to protect the sensitive data of our users. In “Use the Geolocation APIs to Display Longitude and Latitude in a Mobile Web Application” we will take an in-depth look at how the browser employs cooperative detection, allowing the user to opt-in to only sharing location data with trusted web applications.</p>
+
+<p>Want to read more detail? &hellip; <a href="http://shop.oreilly.com/product/0636920026273.do?sortby=bestSellers">buy the book</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/15/use-the-geolocation-api-to-display-long-slash-lat-in-a-jquery-mobile-app/">Use the GeoLocation API to Display Long/Lat in a jQuery Mobile App</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-15T23:15:00-04:00" pubdate data-updated="true">Oct 15<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/10/15/use-the-geolocation-api-to-display-long-slash-lat-in-a-jquery-mobile-app/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The Geolocation specification exposes an easy-to-use API. With only a couple of lines of code, you can obtain the user’s current position. What’s more, jQuery Mobile provides a simple framework for building a cross-browser mobile web application.</p>
+
+<p>In this hack we will utilize the jQuery Mobile framework to provide a relatively simple means of authoring a cross-browser mobile application. Since this hack is focused on displaying our current longitude and latitude and exercising the API across the mobile Web, we will only need a simple UI.</p>
+
+<h3>A Simple jQuery Mobile App</h3>
+
+<p>As always, we’ll start by building a basic page utilizing the HTML5 doctype and including our dependencies:</p>
+
+<figure class='code'><figcaption><span>geo.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;title&gt;</span>jQuery Mobile GeoLocation demo<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://code.jquery.com/jquery-1.7.1.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    // jQuery mobile declarative markup here
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, we have declared a dependency on one stylesheet, and three JavaScripts. We will build the remainder of the application using declarative HTML markup and data- attributes that the jQuery Mobile framework will interpret.<br/>
+Within the <body> tag, we can now place the following:</p>
+
+<figure class='code'><figcaption><span>More geo.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">data-role=</span><span class="s">&quot;page&quot;</span> <span class="na">data-theme=</span><span class="s">&quot;a&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">data-role=</span><span class="s">&quot;header&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;h1&gt;</span>Geo Location<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- /header --&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">data-role=</span><span class="s">&quot;content&quot;</span><span class="nt">&gt;</span>  
+</span><span class='line'>        <span class="nt">&lt;ul</span> <span class="na">data-role=</span><span class="s">&quot;listview&quot;</span> <span class="na">data-inset=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;./longlat-embed.html&quot;</span> <span class="na">data-ajax=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;</span>LongLat<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- /content --&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- /page --&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At this point you should see what’s shown in Figure 7-1, if you access this page from a smaller screen or shrink your desktop browser window to the size of a mobile browser.</p>
+
+<p>Figure 7-1. jQuery Mobile simple button</p>
+
+<p><img class="figure" alt="Figure 7-1" src="/images/chapter7-images/7-1.png"></p>
+
+<p>As you might expect, the UI wasn’t created through magic. jQuery Mobile uses JavaScript to consume the data- attributes present in your HTML markup to dynamically generate more HTML and CSS. The end result is what you see in your browser.
+Now we will create a separate page to link to. You many have noticed a link to longlat-embed.html within the main page.</p>
+
+<figure class='code'><figcaption><span>More geo.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'> <span class="nt">&lt;ul</span> <span class="na">data-role=</span><span class="s">&quot;listview&quot;</span> <span class="na">data-inset=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;./longlat-embed.html&quot;</span> <span class="na">data-ajax=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;</span>LongLat<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will take us to a page that will run our JavaScript that contains our geolocation code. Notice that we designated for this to not be a jQuery Mobile Ajax page. This ensures that upon the click of the link we navigate to the new page. It is important that the linked page is loaded so that its JavaScript will execute.</p>
+
+<p>This page is structured similarly to the other page, with the same dependencies. I intentionally kept the jQuery Mobile code as simple as possible. You can find more information on working with jQuery Mobile in the excellent set of <a href="http://jquerymobile.com/demos/1.1.1/">documentation</a> .</p>
+
+<figure class='code'><figcaption><span>More geo.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">data-role=</span><span class="s">&quot;page&quot;</span> <span class="na">data-theme=</span><span class="s">&quot;a&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">data-role=</span><span class="s">&quot;header&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;h1&gt;</span>LongLat<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- /header --&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;div</span> <span class="na">data-role=</span><span class="s">&quot;content&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- /content --&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- /page --&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the content, we will create a div element that will contain our longitude and latitude data once it is returned from the remote service. We will also include a back capability to return to the previous page.</p>
+
+<figure class='code'><figcaption><span>More geo.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;geo-coords&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        GeoLocation: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&quot;Lat&quot;</span><span class="nt">&gt;</span>lat: ...<span class="nt">&lt;/span&gt;</span>°,
+</span><span class='line'>               <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&quot;Long&quot;</span><span class="nt">&gt;</span>long: ...<span class="nt">&lt;/span&gt;</span>°
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;./jqueryMobile-embed.html&quot;</span>
+</span><span class='line'>       <span class="na">data-role=</span><span class="s">&quot;button&quot;</span>
+</span><span class='line'>       <span class="na">data-inline=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        Back
+</span><span class='line'>    <span class="nt">&lt;/a&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we will address our geolocation JavaScript. If you are familiar with jQuery the initial $ variable will look familiar in the code that follows. If not, you can learn more about jQuery at <a href="http://docs.jquery.com/Main_Page.">http://docs.jquery.com/Main_Page.</a></p>
+
+<p>Simply put, the jQuery function wrapper ensures that our page is ready before we execute the following script. Then we will set up a global namespace object that we will use to store our data. This type of organization will be important as our script gets more complex moving forward.</p>
+
+<p>Next, we will check to make sure the current browser supports geolocation by checking the navigator object for the presence of the geolocation property. If it is available, we will call the getCurrentPosition method and pass a success and error object.
+Then we will construct both a success and error object. Within our success object we can accept a position as a parameter and query the object for its nested coords object which contains both latitude and longitude properties.</p>
+
+<p>We will then call populateHeader(), which uses jQuery to append the returned values to the span tags that contain the IDs Lat and Long.</p>
+
+<figure class='code'><figcaption><span>geo.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">Geo</span><span class="o">=</span><span class="p">{};</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">geolocation</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>           <span class="nx">navigator</span><span class="p">.</span><span class="nx">geolocation</span><span class="p">.</span><span class="nx">getCurrentPosition</span><span class="p">(</span><span class="nx">success</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//Get the latitude and the longitude;</span>
+</span><span class='line'>        <span class="kd">function</span> <span class="nx">success</span><span class="p">(</span><span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">Geo</span><span class="p">.</span><span class="nx">lat</span> <span class="o">=</span> <span class="nx">position</span><span class="p">.</span><span class="nx">coords</span><span class="p">.</span><span class="nx">latitude</span><span class="p">;</span>
+</span><span class='line'>            <span class="nx">Geo</span><span class="p">.</span><span class="nx">lng</span> <span class="o">=</span> <span class="nx">position</span><span class="p">.</span><span class="nx">coords</span><span class="p">.</span><span class="nx">longitude</span><span class="p">;</span>
+</span><span class='line'>            <span class="nx">populateHeader</span><span class="p">(</span><span class="nx">Geo</span><span class="p">.</span><span class="nx">lat</span><span class="p">,</span> <span class="nx">Geo</span><span class="p">.</span><span class="nx">lng</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">function</span> <span class="nx">error</span><span class="p">(){</span>
+</span><span class='line'>            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Geocoder failed&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">function</span> <span class="nx">populateHeader</span><span class="p">(</span><span class="nx">lat</span><span class="p">,</span> <span class="nx">lng</span><span class="p">){</span>
+</span><span class='line'>            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#Lat&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">lat</span><span class="p">);</span>
+</span><span class='line'>            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#Long&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">lng</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let’s return to our browser and navigate to the new page. When a user accesses a web page that includes a call to navigator.geolocation.getCurrentPosition(), a security notification bar will be presented at the top of the page. Browsers that support the Geolocation API have their own security notification, which asks the user to allow or deny the browser access to the device’s current location (see Figure 7-2).</p>
+
+<p>Figure 7-2. Google Chrome geolocation security notification</p>
+
+<p><img class="figure" alt="Figure 7-2" src="/images/chapter7-images/7-2.png"></p>
+
+<p>If the user allows the web application to track her physical location, the script will continue to execute and make a request to the Location Information Server. The remote server returns a data set that includes longitude and latitude. Once we have the information and the success() callback has been called, we update the page (see Figure 7-3).</p>
+
+<p>Figure 7-3. Latitude and longitude</p>
+
+<p><img class="figure" alt="Figure 7-3" src="/images/chapter7-images/7-3.png"></p>
+
+<h3>Security and Privacy Concerns</h3>
+
+<p>The ability for web application developers to collect location data about end users raises quite a bit of concern in regard to security and privacy. The W3C specification clearly indicates that client applications should notify users and provide an interface to authorize the use of location data, allowing them to determine which web applications they trust:</p>
+
+<p>User agents must not send location information to Web sites without the express permission of the user. User agents must acquire permission through a user interface, unless they have prearranged trust relationships with users, as described below. The user interface must include the host component of the document&rsquo;s URI [URI]. Those permissions that are acquired through the user interface and that are preserved beyond the current browsing session (i.e. beyond the time when the browsing context [BROWSINGCONTEXT] is navigated to another URL) must be revocable and user agents must respect revoked permissions.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/22/web-workers-basics-of-the-web-browsers-ui-thread/">Web Workers: Basics of the Web Browser&#8217;s UI Thread</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-22T23:44:00-04:00" pubdate data-updated="true">Sep 22<span>nd</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/22/web-workers-basics-of-the-web-browsers-ui-thread/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Single Threadin&#8217;</h2>
+
+<p>As we set out to build a highly responsive UI for our demo web application, we must fully understand how browsers manage processes. Perhaps the biggest challenge we will face has to do with browsers using a single thread for both JavaScript execution and user interface updates. While the browser&rsquo;s JavaScript interpreter is executing code, the UI is unable to respond to the user&rsquo;s input. If a script is taking a long time to complete, after a specified amount of time the browser will provide the user an option to terminate the script. To accommodate for the &lsquo;freeze&rsquo; associated with scripts that exceed the browser execution time limit, web developers have traditionally created smaller units of work and used JavaScript timers to return execution to the next event in the queue. As you will see, web workers solve the locking of the UI thread by opening an additional thread, or even multiple threads, for execution of these long running, processor intensive tasks.</p>
+
+<p>When designing your application, especially if you come from more of a &lsquo;server-side&rsquo; or Java background, it is important to understand that non-blocking execution is not the same as concurrent threading. While not extremely complex, JavaScript&rsquo;s event driven style does take some getting used to for developers coming from other languages such as Java and C. Later, we will touch on a few examples where we pass a callback continuation function to take full advantage of JavaScript&rsquo;s non blocking design.</p>
+
+<h2>Thread Safety</h2>
+
+<p>Mozilla, in particular, provides a Worker interface which web workers implement. While the Worker interface spawns OS-level threads, web workers use the postMessage mechanism to send messages (with serializable objects) between the two execution contexts. To ensure thread safety the worker is only given access to thread safe components to include the following:</p>
+
+<ul>
+<li>timers: setTimeout() and setInterval() methods</li>
+<li>XMLHttpRequest</li>
+<li>importScripts() method</li>
+</ul>
+
+
+<p>The worker script can also make use of:</p>
+
+<ul>
+<li>navigator and location objects</li>
+<li>native JavaScript objects such as Object, String, Date</li>
+</ul>
+
+
+<p>At the same time, the worker restricts access to DOM APIs, global variables, and the parent page. In Hack #84 Building the DOM with web workers and Handlebars.js, we will explore the restricted access to DOM APIs, and introduce JavaScript templating, importScripts, and the use of timers to poll for postMessage.</p>
+
+<h2>HTML5 Web Workers</h2>
+
+<p>As mentioned earlier, the Web worker spec defines an API for executing scripts in the background by spawning an independent execution context.</p>
+
+<p>It is important to note that web workers are costly, having an impact on startup and overall memory consumption. So, they are intended to be used lightly and in conjunction with the some of the asynchronous techniques mentioned earlier. A well built client-side application would typically make use of one or two cases where tasks are expensive. Here are a few common uses cases:</p>
+
+<ul>
+<li>Single Page Application bootstrapping large amounts of data during initial load</li>
+<li>Performing long running mathematical calculations in the browser</li>
+<li>Processing large JSON datasets</li>
+<li>Text formatting, spell checking, and syntax highlighting</li>
+<li>Processing multimedia data (Audio/Video)</li>
+<li>Long polling webservices</li>
+<li>Filtering images in canvas</li>
+<li>Calculating points for a 3D image</li>
+<li>Reading/Writing of local storage database</li>
+</ul>
+
+
+<h2>Long Running Scripts</h2>
+
+<p>Our first web worker hack will be a long running script with heavy computation. It will execute 2 loops that output a two-dimensional array. First, we will use this computation to lock up the browser&rsquo;s UI thread, and later we will move the task to a worker.</p>
+
+<figure class='code'><figcaption><span>init.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>   
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">r</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">r</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">a</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">c</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>              <span class="nx">a</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nx">j</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">init</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Spawning a Worker</h2>
+
+<p>Now let&rsquo;s move our heavy computational task to a dedicated web worker, so that the user doesn&rsquo;t have to wait for the script to complete execution in order to interact with user interface. First, lets spawn a new worker:</p>
+
+<figure class='code'><figcaption><span>spawn.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">worker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Worker</span><span class="p">(</span><span class="s1">&#39;highComp.js&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">worker</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">message</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">worker</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){},</span> <span class="kc">false</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here, we define an external file that will contain the logic of our heavy computational task. The file, highComp.js will listen for a message that will receive the serialized JSON payload, and then we will set up an additional listener to receive a message back from highComp.js.</p>
+
+<p>Now, we can move this cpu-intensive task to a separate file: highComp.js</p>
+
+<figure class='code'><figcaption><span>highComp.js </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">r</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">r</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">a</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">c</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>     <span class="nx">a</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nx">j</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">postMessage</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In highComp.js, our two dimensional array is built and set to variable a. It is then passed back to our main script via the postMessage call.</p>
+
+<p>In the next hack, we will mix our use of timers with the power of a dedicated worker. As we send messages (passing serializable objects as a parameter to postMessage) back and forth to code running in the shared UI thread, our timer will periodically send and check for new messages and use their contents to modify the DOM.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+
+<div id="mc_embed_signup">
+<form action="http://jessecravens.us2.list-manage1.com/subscribe/post?u=e00a501b9d5ba6aa43acd55a7&amp;id=95bec8136d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+	<label for="mce-EMAIL">Subscribe to our mailing list</label>
+	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+	<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+</form>
+</div>
+<!--End mc_embed_signup -->
+
+<a href="http://www.anrdoezrs.net/click-7080585-11260198?url=http%3A%2F%2Fshop.oreilly.com%2Fproduct%2F0636920026273.do%3Fcmp%3Daf-code-book-product_cj_9781449334994_%25zp&cjsku=0636920026273" target="_top"><img src="http://akamaicovers.oreilly.com/images/0636920026273/cat.gif" border="0" alt="HTML5 Hacks"/></a><img src="http://www.lduhtrp.net/image-7080585-11260198" width="1" height="1" border="0"/>
+
+<h2>O&#8217;Reilly Media&#8217;s HTML5 Hacks</h2>
+
+<p>HTML5 Hacks shows you how to use the latest tools to make your sites and applications more interactive, more functional, and more capable of competing with desktop applications. Each hack shows you how to make a concrete improvement, applying the latest in JavaScript, HTML, and CSS power to common web development issues.</p>
+
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/25/building-next-generation-widgets-with-web-components/">Building Next Generation Widgets with Web Components</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/17/add-narration-to-your-slide-deck-with-html5-audio/">Add Narration to your Slide Deck with HTML5 Audio</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/ember-dot-js-views-and-live-templates-with-handlebars-dot-js-part-1/">Ember.js Views and Live Templates with Handlebars.js Part 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/13/rich-input-data-from-w3c-pointer-events/">Utilize Rich Input Data from W3C Pointer Events</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/21/push-notifications-to-the-browser-with-server-sent-events/">Push Notifications to the Browser with Server Sent Events</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/html5hacks">@html5hacks</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'html5hacks',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("html5hacks", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/html5hacks" class="twitter-follow-button" data-show-count="false">Follow @html5hacks</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Jesse Cravens and Jeff Burtoft -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'html5hacks';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
